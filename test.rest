@@ -26,7 +26,9 @@ Content-Type: application/json
 ### Get current user's information ###
 
 GET {{url}}/me
-Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTW9oYW1tYWQiLCJpYXQiOjE2ODU0OT*****
+Cookie: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTW9oYW1tYWQiLCJpYXQiOjE2ODU0OTg4MTEsImV4cCI6MTY4NTU4NTIxMX0.SO4G4K7W2qfaCtKoB_lF7IOziydwsegKhz20SvKH-qE
+
+
 
 ### Log out the user ###
 

@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import * as config from './config.js';
+import * as config from '../config.js';
 import { User } from '../models/User';
 
 export const sequelize = new Sequelize({

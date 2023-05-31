@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction, RequestHandler } from 'express';
 import { User } from '../models/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -10,7 +10,7 @@ interface CustomRequest extends Request {
 const router = Router();
 const salt = 10;
 
-const verifyUser = (req: CustomRequest, res: Response, next: NextFunction) => {
+const verifyUser: RequestHandler = (req: CustomRequest, res: Response, next: NextFunction) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -28,25 +28,14 @@ const verifyUser = (req: CustomRequest, res: Response, next: NextFunction) => {
 };
 
 router.get('/', verifyUser, (req: CustomRequest, res: Response) => {
-  res.json({ Status: 'Success', name: req.currentUser });
+  res.json({ status: 'Success', name: req.currentUser });
 });
 
-router.get('/me', verifyUser, (req: CustomRequest, res: Response, next: NextFunction) => {
-  const token = req.cookies.token;
-
-  if (!token) {
-    return res.json({ error: 'Not Authenticated' });
-  }
-
-  jwt.verify(token, 'm1', (err: any, decoded: any) => {
-    if (err) {
-      return res.json({ error: 'Token is not valid' });
-    }
-
-    req.currentUser = decoded.name;
-    next();
-  });
+router.get('/me', verifyUser, (req: CustomRequest, res: Response) => {
+  const currentUser = req.currentUser;
+  res.json({ status: 'Success', name: currentUser });
 });
+
 
 router.post('/register', async (req: Request, res: Response) => {
   try {
@@ -69,7 +58,7 @@ router.post('/signin', async (req: Request, res: Response) => {
       const match = await bcrypt.compare(password, user.password);
 
       if (match) {
-        const token = jwt        .sign({ name: user.name }, 'm1', { expiresIn: '1d' });
+        const token = jwt.sign({ name: user.name }, 'm1', { expiresIn: '1d' });
         res.cookie('token', token);
         res.json({ status: 'Success' });
       } else {

@@ -1,14 +1,14 @@
 import express from 'express';
 import { sequelize } from './config/database';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes';
 
 const app = express();
 const port = 3111;
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 app.use(cors());
 app.use(cookieParser());
 app.use('/', authRoutes);
